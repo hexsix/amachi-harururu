@@ -176,7 +176,7 @@ def construct_params(item: Dict):
               f'\n' \
               f'{" ".join(escape(t) for t in item["tags"])}\n' \
               f'\n' \
-              f'{item["link"]}'
+              f'{escape(item["link"])}'
     return photo, caption, rj_code
 
 
