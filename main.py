@@ -95,7 +95,13 @@ def parse(rss_json: Dict) -> List[Dict[str, Any]]:
             item['work_name'] = soup.select_one(
                 '.work_name').select_one('a').attrs['title']
             item['author'] = entry['author']
-            item['tags'] = [t['term'] for t in entry['tags']]
+            item['tags'] = []
+            for t in entry['tags']:
+                tag = t['term']
+                if '/' in tag:
+                    tag.replace('/', '/#')
+                tag = '#' + tag
+                item['tags'].append(tag)
             item['link'] = entry['link']
             item['rj_code'] = re.search(r'RJ\d*', entry['link']).group()
             items.append(item)
@@ -157,8 +163,10 @@ def construct_params(item: Dict):
     photo = ''
     caption = f'#{rj_code}\n' \
               f'{item["work_name"]}\n' \
-              f'author: {item["author"]}\n' \
-              f'tags: {" ".join("#" + t for t in item["tags"])}\n' \
+              f'\n' \
+              f'{item["author"]}\n' \
+              f'\n' \
+              f'{" ".join(t for t in item["tags"])}\n' \
               f'\n' \
               f'{item["link"]}'
     return photo, caption, rj_code
