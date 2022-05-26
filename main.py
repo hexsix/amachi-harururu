@@ -193,7 +193,7 @@ def main() -> None:
     logger.info(f'{len(filtered_items)}/{len(items)} filtered by already sent.\n')
     for item in filtered_items:
         photo, caption, rj_code = construct_params(item)
-        for rss_author in CONFIGS.keys:
+        for rss_author in CONFIGS.keys():
             if rss_author in item['author']:
                 send(CONFIGS[rss_author], photo, caption, rj_code)
                 redis_set(rj_code)
