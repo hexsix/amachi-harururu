@@ -99,8 +99,8 @@ def parse(rss_json: Dict) -> List[Dict[str, Any]]:
             for t in entry['tags']:
                 tag = t['term']
                 if '/' in tag:
-                    tag = tag.replace('/', '/#')
-                tag = '#' + tag
+                    tag = tag.replace('/', '/\\#')
+                tag = '\\#' + tag
                 item['tags'].append(tag)
             item['link'] = entry['link']
             item['rj_code'] = re.search(r'RJ\d*', entry['link']).group()
@@ -162,7 +162,7 @@ def send(chat_id: str, photo: str, caption: str, rj_code: str) -> bool:
 def construct_params(item: Dict):
     rj_code = item['rj_code']
     photo = ''
-    caption = f'#{rj_code}\n' \
+    caption = f'\\#{rj_code}\n' \
               f'*{item["work_name"]}*\n' \
               f'\n' \
               f'{item["author"]}\n' \
@@ -204,8 +204,8 @@ def main() -> None:
         photo, caption, rj_code = construct_params(item)
         for rss_author in CONFIGS.keys():
             if rss_author in item['author']:
-                send(CONFIGS[rss_author], photo, caption, rj_code)
-                redis_set(rj_code)
+                if send(CONFIGS[rss_author], photo, caption, rj_code):
+                    redis_set(rj_code)
                 time.sleep(10)
     logger.info('============ App End ============')
 
