@@ -99,7 +99,7 @@ def parse(rss_json: Dict) -> List[Dict[str, Any]]:
             for t in entry['tags']:
                 tag = t['term']
                 if '/' in tag:
-                    tag.replace('/', '/#')
+                    tag = tag.replace('/', '/#')
                 tag = '#' + tag
                 item['tags'].append(tag)
             item['link'] = entry['link']
