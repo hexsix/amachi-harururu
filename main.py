@@ -99,8 +99,8 @@ def parse(rss_json: Dict) -> List[Dict[str, Any]]:
             for t in entry['tags']:
                 tag = t['term']
                 if '/' in tag:
-                    tag = tag.replace('/', '/\\#')
-                tag = '\\#' + tag
+                    tag = tag.replace('/', '/#')
+                tag = '#' + tag
                 item['tags'].append(tag)
             item['link'] = entry['link']
             item['rj_code'] = re.search(r'RJ\d*', entry['link']).group()
@@ -159,15 +159,22 @@ def send(chat_id: str, photo: str, caption: str, rj_code: str) -> bool:
         return False
 
 
+def escape(text: str) -> str:
+    escape_chars = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
+    for escape_char in escape_chars:
+        text = text.replace(escape_char, '\\' + escape_char)
+    return text
+
+
 def construct_params(item: Dict):
     rj_code = item['rj_code']
     photo = ''
     caption = f'\\#{rj_code}\n' \
-              f'*{item["work_name"]}*\n' \
+              f'*{escape(item["work_name"])}*\n' \
               f'\n' \
-              f'{item["author"]}\n' \
+              f'{escape(item["author"])}\n' \
               f'\n' \
-              f'{" ".join(t for t in item["tags"])}\n' \
+              f'{" ".join(escape(t) for t in item["tags"])}\n' \
               f'\n' \
               f'{item["link"]}'
     return photo, caption, rj_code
