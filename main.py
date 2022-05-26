@@ -140,6 +140,7 @@ def send(chat_id: str, photo: str, caption: str, rj_code: str) -> bool:
         target = f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage"
         params = {
             'chat_id': chat_id,
+            'parse_mode': 'MarkdownV2',
             'text': caption
         }
         try:
@@ -162,7 +163,7 @@ def construct_params(item: Dict):
     rj_code = item['rj_code']
     photo = ''
     caption = f'#{rj_code}\n' \
-              f'{item["work_name"]}\n' \
+              f'*{item["work_name"]}*\n' \
               f'\n' \
               f'{item["author"]}\n' \
               f'\n' \
