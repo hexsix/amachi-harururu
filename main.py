@@ -28,7 +28,7 @@ logger = logging.getLogger()
 RSS_URL = os.environ['RSS_URL']
 TG_TOKEN = os.environ['TG_TOKEN']
 REDIS = redis.from_url(os.environ['REDIS_URL'])
-CONFIGS = json.load(open('configs.json', 'r', encoding='utf8'))
+CONFIGS = json.loads(os.environ['CONFIGS'])
 
 
 def download() -> Dict:

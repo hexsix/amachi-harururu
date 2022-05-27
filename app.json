@@ -1,0 +1,32 @@
+{
+    "name": "AmachiDLsiteRSSTGBot",
+    "description": "A telegram bot that subscribes to Amachi Haru's works on DLsite.",
+    "keywords": [
+        "telegram",
+        "bot",
+        "DLsite",
+        "ASMR",
+        "Amachi Haru"
+    ],
+    "repository": "https://github.com/hexsix/amachi-harururu",
+    "env": {
+        "RSS_URL": {
+            "description": "RSSHub url.",
+            "value": "https://rsshub.app/dlsite/new/maniax",
+            "required": true
+        },
+        "TG_TOKEN": {
+            "description": "Telegram bot api key.",
+            "required": true
+        },
+        "CONFIGS": {
+            "description": "A json that describes subscribed author and channel id.",
+            "value": "{ \"天知遥\": \"-1001691108086\", \"伊ヶ崎綾香\": \"-1001531338198\" }",
+            "required": true
+        }
+    },
+    "addons": [
+        "heroku-redis",
+        "heroku-scheduler"
+    ]
+}
